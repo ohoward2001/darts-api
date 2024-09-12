@@ -6,10 +6,10 @@ namespace DartsAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class ScorecardController : Controller
+public class BracketController : Controller
 {
     [HttpGet]
-    public async Task<List<BracketReturn>> GetBrackets()
+    public async Task<List<Bracket>> GetBrackets()
     {
         const string connectionUri = "mongodb+srv://admin_user:Password10@golfapp.kphj1nd.mongodb.net/?retryWrites=true&w=majority&appName=GolfApp";
 
@@ -19,13 +19,14 @@ public class ScorecardController : Controller
 
         var client = new MongoClient(settings);
 
-        var brackets = new List<BracketReturn>();
+        var brackets = new List<Bracket>();
 
         try {
             var database = client.GetDatabase("DartsApp");
-            var collection = database.GetCollection<BracketReturn>("brackets");
+            var collection = database.GetCollection<Bracket>("brackets");
 
             brackets = collection.Find(b => true).ToListAsync().Result;
+            
         } catch (Exception ex) {
             Console.WriteLine(ex);
         }
